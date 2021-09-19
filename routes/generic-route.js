@@ -30,9 +30,11 @@ async function validatePost(req, res, next) {
   console.log('req.params.type', req.params.type);
   switch (req.params.type) {
     case ModuleTypes.NURSE:
-      return nurseValidator.postNurse(req, res, next);
+      await nurseValidator.postNurse(req, res, next);
+      break;
     case ModuleTypes.RESIDENT:
-      return residentValidator.postResident(req, res, next);
+      await residentValidator.postResident(req, res, next);
+      break;
     default:
       return next(new Error('Invalid type'));
   }
@@ -76,12 +78,15 @@ router.put("/:type/:id",
 async function validateUpdate(req, res, next) {
   switch (req.params.type) {
     case ModuleTypes.NURSE:
-      return nurseValidator.updateNurse(req, res, next);
+      await nurseValidator.updateNurse(req, res, next);
+      break;
     case ModuleTypes.RESIDENT:
-      return residentValidator.updateResident(req, res, next);
+      await residentValidator.updateResident(req, res, next);
+      break;
     default:
       return next(new Error('Invalid type'));
   }
+  return routeHandler(req, res, next);
 }
 
 // get by id

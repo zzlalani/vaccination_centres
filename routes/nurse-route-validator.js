@@ -1,5 +1,4 @@
 const {param, body} = require("express-validator");
-const routeHandler = require("./route-handler");
 
 async function postNurse(req, res, next) {
   await Promise.all([
@@ -7,7 +6,6 @@ async function postNurse(req, res, next) {
     body('name').notEmpty().run(req),
     body('name').trim().run(req),
   ]);
-  return routeHandler(req, res, next);
 }
 
 async function updateNurse(req, res, next) {
@@ -16,7 +14,6 @@ async function updateNurse(req, res, next) {
     body('name').notEmpty().run(req),
     body('name').trim().run(req),
   ]);
-  return routeHandler(req, res, next)
 }
 
 module.exports = {
