@@ -10,5 +10,6 @@ router.get('/ping', async (req, res, next) => {
 });
 
 router.use('/nurses', require('./nurses'))
+router.use('/patients', require('./patients'))
 
 module.exports = router;

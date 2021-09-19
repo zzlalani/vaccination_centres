@@ -4,18 +4,20 @@ const { body, param } = require('express-validator');
 
 const routeHandler = require('./route-handler');
 
-const NurseService = require('../services/nurses');
+const PatientService = require('../services/patients');
 
-// create new nurse
+// create new patient
 router.post("/",
-  validateSanitizePostNurse,
+  validateSanitizePostPatient,
   async (req, res, next) => {
   try {
-    const data = await NurseService.createNurse({
+    const data = await PatientService.createPatient({
       name: req.body.name,
+      contact: req.body.contact,
+      dob: new Date(req.body.dob),
     });
     res.status(200).json({
-      message: 'nurse created',
+      message: 'patient created',
       data,
     });
   } catch (err) {
@@ -23,18 +25,21 @@ router.post("/",
   }
 });
 
-async function validateSanitizePostNurse(req, res, next) {
+async function validateSanitizePostPatient(req, res, next) {
   await Promise.all([
     body('name').notEmpty().run(req),
+    body('contact').notEmpty().isNumeric().run(req),
+    body('dob').notEmpty().isDate().run(req),
     body('name').trim().run(req),
+    body('dob').trim().run(req),
   ]);
   return routeHandler(req, res, next)
 }
 
-// get all nurses
+// get all patients
 router.get("/", async (req, res, next) => {
   try {
-    const data = await NurseService.getNurses();
+    const data = await PatientService.getPatients();
     res.status(200).json({
       data,
     });
@@ -43,13 +48,15 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-// update nurse by id
+// update patient by id
 router.put("/:id",
-  validateSanitizeUpdateNurse,
+  validateSanitizeUpdatePatient,
   async (req, res, next) => {
   try {
-    const data = await NurseService.updateNurse(req.params.id, {
+    const data = await PatientService.updatePatient(req.params.id, {
       name: req.body.name,
+      contact: req.body.contact,
+      dob: new Date(req.body.dob),
     });
     if (data) {
       res.status(200).json({
@@ -65,20 +72,23 @@ router.put("/:id",
   }
 });
 
-async function validateSanitizeUpdateNurse(req, res, next) {
+async function validateSanitizeUpdatePatient(req, res, next) {
   await Promise.all([
     param('id').trim().run(req),
     body('name').notEmpty().run(req),
+    body('contact').notEmpty().isNumeric().run(req),
+    body('dob').notEmpty().isDate().run(req),
     body('name').trim().run(req),
+    body('dob').trim().run(req),
   ]);
   return routeHandler(req, res, next)
 }
 
-// get nurse by id
+// get patient by id
 router.get("/:id",
   async (req, res, next) => {
   try {
-    const data = await NurseService.getNurseById(req.params.id);
+    const data = await PatientService.getPatientById(req.params.id);
     if (data) {
       res.status(200).json({
         data,

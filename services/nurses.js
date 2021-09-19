@@ -8,8 +8,12 @@ async function getNurses() {
   return Nurse.find();
 }
 
-async function updateNurses(id, data) {
-  return Nurse.findByIdAndUpdate(id, data)
+async function updateNurse(id, data) {
+  return Nurse.findByIdAndUpdate(
+    id,
+    data,
+    {new: true},
+  );
 }
 
 async function getNurseById(id) {
@@ -20,5 +24,5 @@ module.exports = {
   createNurse,
   getNurseById,
   getNurses,
-  updateNurses,
+  updateNurse,
 }
