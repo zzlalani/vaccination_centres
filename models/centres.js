@@ -7,6 +7,10 @@ module.exports = mongoose.model("Centre", new mongoose.Schema({
     unique: true,
   },
   dailyCapacity: Number,
+  schedule: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Schedule'
+  }
 }, {
   timestamps: true,
 }));

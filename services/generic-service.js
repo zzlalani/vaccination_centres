@@ -29,7 +29,7 @@ async function get(type) {
     case ModuleTypes.RESIDENT:
       return Resident.find();
     case ModuleTypes.SCHEDULE:
-      return Schedule.find();
+      return Schedule.find().populate('nurses').populate('centre');
     default:
       throw new Error('Invalid type');
   }

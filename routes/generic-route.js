@@ -6,8 +6,10 @@ const { ModuleTypes } = require('../enums');
 const routeHandler = require('./route-handler');
 const genericService = require('../services/generic-service');
 
+const centreValidator = require('./centre-route-validator');
 const nurseValidator = require('./nurse-route-validator');
 const residentValidator = require('./resident-route-validator');
+const scheduleValidator = require('./schedule-route-validator');
 
 // create
 router.post("/:type",
@@ -22,18 +24,23 @@ router.post("/:type",
         data,
       });
     } catch (err) {
-      next(err);
+      return next(err);
     }
   });
 
 async function validatePost(req, res, next) {
-  console.log('req.params.type', req.params.type);
   switch (req.params.type) {
     case ModuleTypes.NURSE:
       await nurseValidator.postNurse(req, res, next);
       break;
     case ModuleTypes.RESIDENT:
       await residentValidator.postResident(req, res, next);
+      break;
+    case ModuleTypes.CENTRE:
+      await centreValidator.postCentre(req, res, next);
+      break;
+    case ModuleTypes.SCHEDULE:
+      await scheduleValidator.postSchedule(req, res, next);
       break;
     default:
       return next(new Error('Invalid type'));
@@ -49,7 +56,7 @@ router.get("/:type", async (req, res, next) => {
       data,
     });
   } catch (err) {
-    next(err);
+    return next(err);
   }
 });
 
@@ -71,7 +78,7 @@ router.put("/:type/:id",
         });
       }
     } catch (err) {
-      next(err);
+      return next(err);
     }
   });
 
@@ -82,6 +89,12 @@ async function validateUpdate(req, res, next) {
       break;
     case ModuleTypes.RESIDENT:
       await residentValidator.updateResident(req, res, next);
+      break;
+    case ModuleTypes.CENTRE:
+      await centreValidator.updateCentre(req, res, next);
+      break;
+    case ModuleTypes.SCHEDULE:
+      await scheduleValidator.updateSchedule(req, res, next);
       break;
     default:
       return next(new Error('Invalid type'));
@@ -104,7 +117,7 @@ router.get("/:type/:id",
         });
       }
     } catch (err) {
-      next(err);
+      return next(err);
     }
   });
 
