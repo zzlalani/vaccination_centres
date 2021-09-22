@@ -10,5 +10,6 @@ router.get('/ping', async (req, res, next) => {
 });
 
 router.use('/generic', require('./generic-route'));
+router.use('/reservation', require('./reservation-route'));
 
 module.exports = router;

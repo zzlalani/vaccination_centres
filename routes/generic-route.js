@@ -1,15 +1,15 @@
-const express = require("express")
-const router = express.Router()
+const express = require("express");
+const router = express.Router();
 
 const { ModuleTypes } = require('../enums');
 
-const routeHandler = require('./route-handler');
+const routeHandler = require('./route-validation-result');
 const genericService = require('../services/generic-service');
 
-const centreValidator = require('./centre-route-validator');
-const nurseValidator = require('./nurse-route-validator');
-const residentValidator = require('./resident-route-validator');
-const scheduleValidator = require('./schedule-route-validator');
+const centreValidator = require('./validations/centre-route-validator');
+const nurseValidator = require('./validations/nurse-route-validator');
+const residentValidator = require('./validations/resident-route-validator');
+const scheduleValidator = require('./validations/schedule-route-validator');
 
 // create
 router.post("/:type",

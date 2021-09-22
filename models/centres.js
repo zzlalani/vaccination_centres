@@ -10,7 +10,10 @@ module.exports = mongoose.model("Centre", new mongoose.Schema({
   schedule: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Schedule'
-  }
+  },
+  startTime: String, // schedule start time
+  endTime: String, // schedule end time
+  slotTime: Number, // reservation slot in min
 }, {
   timestamps: true,
 }));
