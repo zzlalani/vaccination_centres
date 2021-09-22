@@ -48,6 +48,19 @@ async function create(centreId, residentId, date, slot) {
   }
 }
 
+async function getAll(centreId, date) {
+  return Reservation.find({
+    centre: centreId,
+    date,
+  }).sort('slot');
+}
+
+async function getById(id) {
+  return Reservation.findById(id).populate('resident').populate('centre');
+}
+
 module.exports = {
   create,
+  getAll,
+  getById,
 };
